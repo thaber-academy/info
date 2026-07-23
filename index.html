@@ -152,13 +152,7 @@
         .card-pricing { border-color: #d35400; }
         .card-bank { border-color: #2980b9; }
         .card-ambassador { border-color: #8e44ad; }
-        
-        
-        
-        
-        
-        
-        
+        .card-free-services { border-color: #e84393; }
 
         @keyframes pulse-icon {
             0% { transform: scale(1); }
@@ -225,6 +219,10 @@
         }
         
         .modal-body { font-size: 1.15rem; line-height: 1.9; }
+        .modal-body ul { padding-right: 25px; }
+        .modal-body ul li { margin-bottom: 15px; position: relative; }
+        .modal-body ul li::marker { content: '✅ '; font-size: 1.2rem; }
+        .modal-body strong { color: #d35400; }
         
         .modal-close-btn-bottom {
             display: block; width: 100%; margin-top: 20px; padding: 12px;
@@ -345,8 +343,6 @@
             .bank-details-box { font-size: 1.1rem; padding: 20px 10px; }
             .bank-details-box span.val { font-size: 1.2rem; }
             .cta-btn { font-size: 1rem; padding: 10px 15px; }
-            
-            
         }
     </style>
 </head>
@@ -368,6 +364,17 @@
 
     <!-- بطاقات الواجهة الرئيسية -->
     <div class="main-cards">
+
+        <!-- بطاقة خدمات مجانية -->
+        <div class="card card-free-services" onclick="openModal('free-services-modal')">
+            <span class="marketing-tag" style="background: #e84393; color: #fff;">هدية لطلابنا 🎁</span>
+            <div class="card-icon">🆓</div>
+            <div class="card-title" style="color: #e84393;">خدمات مجانية</div>
+            <div class="card-content">
+                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أدوات تدعم تفوقك مجاناً.</p>
+                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف جدول المذاكرة الذكي، ومكتبة الامتحانات والكتب الدراسية من الصف 5 للثاني عشر.</p>
+            </div>
+        </div>
         
         <!-- بطاقة جوجل كلاس روم -->
         <div class="card card-classroom" onclick="openModal('classroom-modal')">
@@ -451,6 +458,99 @@
 </div>
 
 <!-- ================= النوافذ المنبثقة (Modals) ================= -->
+
+<!-- نافذة خدمات مجانية -->
+<div class="modal-overlay" id="free-services-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('free-services-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🎁</span> خدمات ثابر المجانية</div>
+        <div class="modal-body">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; color: #555;">
+                لأننا شركاء في نجاحك، نوفر لك مجموعة من الأدوات والمراجع التي تساعدك على التفوق <strong style="color: #e84393;">بشكل مجاني بالكامل</strong>:
+            </p>
+
+            <ul>
+                <li><strong>جدول المذاكرة الذكي الإلكتروني:</strong> أداة تفاعلية رائعة تساعدك على تنظيم وقتك الدراسي بفعالية، لتذاكر بذكاء وبدون إرهاق.</li>
+                <li><strong>مكتبة شاملة (من الصف 5 إلى 12):</strong> قسم خاص ومتكامل يحتوي على:
+                    <ul style="margin-top: 10px; padding-right: 20px;">
+                        <li style="margin-bottom: 5px;">الامتحانات النهائية للسنوات السابقة لتتدرب عليها.</li>
+                        <li style="margin-bottom: 5px;">الكتب الدراسية بصيغة رقمية لسهولة الوصول إليها.</li>
+                        <li style="margin-bottom: 5px;">أنشطة ومواد متنوعة تدعم فهمك للمناهج.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p style="text-align: center; font-weight: bold; color: #084c54; margin-top: 25px;">
+                كل هذا وأكثر متاح لجميع طلابنا مجاناً لضمان أفضل تجربة تعليمية! 🚀
+            </p>
+            <button class="modal-close-btn-bottom" onclick="closeModal('free-services-modal')">رائع، إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- بقية النوافذ الأساسية -->
+<div class="modal-overlay" id="classroom-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('classroom-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🏫</span> نظام دراسي مصمم لنجاحك</div>
+        <div class="modal-body">
+            <p>نحن نعلم أن الفوضى تشتت التركيز، لذلك استخدمنا <strong>جوجل كلاس روم</strong> لنرتب لك طريق التفوق:</p>
+            <ul>
+                <li><strong>وداعاً لضياع الدروس:</strong> مكتبة رقمية ضخمة ومسجلة.</li>
+                <li><strong>مذكرات وملازم حصرية:</strong> جاهزة للتحميل بضغطة زر.</li>
+                <li><strong>تنظيم يريح الأعصاب:</strong> لوحة تحكم تخبرك بما أنجزته.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('classroom-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="chat-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">💬</span> لن تتعثر في أي سؤال</div>
+        <div class="modal-body">
+            <p>صممنا لك بيئة تفاعلية حية عبر <strong>جوجل تشات</strong>:</p>
+            <ul>
+                <li><strong>معلمك معك دائماً:</strong> مساحات نقاش (Spaces) مخصصة لكل مادة.</li>
+                <li><strong>تعلم من أخطاء غيرك:</strong> الأسئلة السابقة محفوظة.</li>
+                <li><strong>جو تنافسي إيجابي:</strong> تواصل راقٍ ومفيد.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('chat-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="whatsapp-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('whatsapp-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🛡️</span> راحة البال لولي الأمر</div>
+        <div class="modal-body">
+            <p>صممنا <strong>مجتمع واتساب المغلق</strong> ليكون حلقة الوصل:</p>
+            <ul>
+                <li><strong>متابعة لحظية (بدون إزعاج):</strong> إشعارات بمواعيد بدء الحصص.</li>
+                <li><strong>تنبيهات الامتحانات:</strong> رسائل تذكيرية قبل التقييمات.</li>
+                <li><strong>قرارات وتحديثات المنصة:</strong> كن أول من يعلم بالمعسكرات.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('whatsapp-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="features-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('features-modal')">&times;</span>
+        <div class="modal-title"><span style="font-size: 2.5rem;">🏆</span> منظومة ثابر.. أكثر من دروس</div>
+        <div class="modal-body">
+            <ul>
+                <li><strong>تقييم مستمر:</strong> اختبارات رقمية دورية.</li>
+                <li><strong>تقارير أداء كاشفة:</strong> تحليل دقيق لمستوى الطالب.</li>
+                <li><strong>تحفيز يصنع المعجزات:</strong> شهادات وتكريم دوري.</li>
+            </ul>
+            <button class="modal-close-btn-bottom" onclick="closeModal('features-modal')">إغلاق</button>
+        </div>
+    </div>
+</div>
 
 <!-- نافذة الحساب البنكي -->
 <div class="modal-overlay" id="bank-modal">
@@ -588,70 +688,6 @@
     </div>
 </div>
 
-<!-- بقية النوافذ الأساسية -->
-<div class="modal-overlay" id="classroom-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('classroom-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏫</span> نظام دراسي مصمم لنجاحك</div>
-        <div class="modal-body">
-            <p>نحن نعلم أن الفوضى تشتت التركيز، لذلك استخدمنا <strong>جوجل كلاس روم</strong> لنرتب لك طريق التفوق:</p>
-            <ul>
-                <li><strong>وداعاً لضياع الدروس:</strong> مكتبة رقمية ضخمة ومسجلة.</li>
-                <li><strong>مذكرات وملازم حصرية:</strong> جاهزة للتحميل بضغطة زر.</li>
-                <li><strong>تنظيم يريح الأعصاب:</strong> لوحة تحكم تخبرك بما أنجزته.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('classroom-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="chat-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💬</span> لن تتعثر في أي سؤال</div>
-        <div class="modal-body">
-            <p>صممنا لك بيئة تفاعلية حية عبر <strong>جوجل تشات</strong>:</p>
-            <ul>
-                <li><strong>معلمك معك دائماً:</strong> مساحات نقاش (Spaces) مخصصة لكل مادة.</li>
-                <li><strong>تعلم من أخطاء غيرك:</strong> الأسئلة السابقة محفوظة.</li>
-                <li><strong>جو تنافسي إيجابي:</strong> تواصل راقٍ ومفيد.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('chat-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="whatsapp-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('whatsapp-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🛡️</span> راحة البال لولي الأمر</div>
-        <div class="modal-body">
-            <p>صممنا <strong>مجتمع واتساب المغلق</strong> ليكون حلقة الوصل:</p>
-            <ul>
-                <li><strong>متابعة لحظية (بدون إزعاج):</strong> إشعارات بمواعيد بدء الحصص.</li>
-                <li><strong>تنبيهات الامتحانات:</strong> رسائل تذكيرية قبل التقييمات.</li>
-                <li><strong>قرارات وتحديثات المنصة:</strong> كن أول من يعلم بالمعسكرات.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('whatsapp-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="features-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('features-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏆</span> منظومة ثابر.. أكثر من دروس</div>
-        <div class="modal-body">
-            <ul>
-                <li><strong>تقييم مستمر:</strong> اختبارات رقمية دورية.</li>
-                <li><strong>تقارير أداء كاشفة:</strong> تحليل دقيق لمستوى الطالب.</li>
-                <li><strong>تحفيز يصنع المعجزات:</strong> شهادات وتكريم دوري.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('features-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
 <script>
     // نظام التحكم بالنوافذ المنبثقة
     function openModal(modalId) {
@@ -671,8 +707,6 @@
             document.body.style.overflow = 'auto';
         }
     }
-
-    
 </script>
 
 </body>
