@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ثابر التعليمية - آلة محاكاة الحسبة والمطابقة المالية</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #eaedf1; margin: 0; padding: 20px; color: #333; }
+    .container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+    
+    .panel { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); height: fit-content; }
+    .student-panel { border-top: 5px solid #e98300; }
+    .sheet-panel { border-top: 5px solid #006778; background: #fafafa; }
+    
+    h2 { margin-top: 0; color: #244D95; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 20px; }
+    label { display: block; margin: 15px 0 5px; font-weight: bold; color: #555; }
+    input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+    
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .item { font-size: 13px; display: flex; align-items: center; background: #fff; padding: 8px; border-radius: 6px; border: 1px solid #eaeaea; }
+    .item input { width: 16px; height: 16px; margin-left: 8px; cursor: pointer; }
+    .item label { margin: 0; cursor: pointer; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+    
+    .price-badge { background: #eaf2f8; color: #184e95; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+    .price-box { margin-top: 15px; background: #006778; color: white; padding: 12px; text-align: center; border-radius: 8px; font-size: 18px; font-weight: bold; }
+    .info-box { background: #fff8e1; border: 1px dashed #ffb300; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 13px; color: #d84315; line-height: 1.5; }
+    .alert-box { background: #ffebee; border: 1px solid #ef5350; color: #c62828; padding: 10px; border-radius: 6px; margin-top: 10px; font-weight: bold; font-size: 13px; display: none; }
+    
+    /* تنسيق الشيت التخيلي */
+    .sheet-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; background: white; }
+    .sheet-table th, .sheet-table td { border: 1px solid #ccc; padding: 6px; text-align: center; white-space: nowrap; }
+    .sheet-table th { background: #e2e8f0; color: #334155; font-weight: bold; }
+    .highlight-cell { background: #fff9db; font-weight: bold; color: #b45309; }
+    .active-cell { background: #e6fffa; font-weight: bold; color: #0d9488; }
+    .scroll-wrapper { overflow-x: auto; width: 100%; border: 1px solid #ddd; border-radius: 6px; }
+    
+    .status-badge { padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+    .status-new { background: #e0f2fe; color: #0369a1; }
+    .status-old { background: #fef3c7; color: #d97706; }
+  </style>
+</head>
+<body>
+
+<div style="text-align: center; margin-bottom: 20px;">
+  <h1 style="color:#244D95; margin-bottom:5px;">🧮 محاكي الدورة المحاسبية الذكية - الصف التاسع</h1>
+  <p style="color:#666; margin-top:0;">استخدم هذه لوحة التحكم لتجربة واختبار كافة السيناريوهات المحاسبية (كاش، أقساط، ترقيات)</p>
+</div>
+
+<div class="container">
+  
+  <!-- ================= الشاشة التفاعلية للطالب ================= -->
+  <div class="panel student-panel">
+    <h2>📱 محاكاة ما يظهر للطالب على الواجهة</h2>
+    
+    <label>1. نوع حساب الطالب المحاكي (للتجربة)</label>
+    <select id="simUserType" onchange="toggleUserType()">
+      <option value="new_student">طالب جديد بالكامل (ليس لديه سجل مسبق)</option>
+      <option value="old_student">طالب قديم (مسجل مسبقاً بنظام الأقساط بـ 4 مواد معتمدة)</option>
+    </select>
+    
+    <label>2. الجنس</label>
+    <select id="gender">
+      <option value="" disabled selected>-- اختر الجنس --</option>
+      <option value="ذكر">ذكر</option>
+      <option value="أنثى">أنثى</option>
+    </select>
+
+    <label>3. المواد المشترك بها</label>
+    <div id="subjectsGrid" class="grid"></div>
+    
+    <div id="specialOfferBox" style="display:none; background:#e8f5e9; border:2px dashed #4caf50; padding:12px; border-radius:6px; margin-top:10px; color:#2e7d32; font-size: 13px;">
+      🔥 <b>مبروك! لقد تأهلت لعرض "الباقة الشاملة" الاستثنائي</b><br>
+      تم تطبيق خصم النخبة! السعر الجديد (كاش فقط): <b>120 ر.ع</b> (15 ر.ع لكل مادة).
+    </div>
+
+    <div id="paymentOptionsContainer" style="display:none;">
+      <label>4. طريقة السداد المتاحة</label>
+      <select id="paymentMethod" onchange="calculate()">
+        <option value="full">دفع كامل المبلغ (كاش)</option>
+        <option value="2_parts">تقسيط على دفعتين (الآن 60%، ولاحقاً 40%)</option>
+      </select>
+    </div>
+
+    <div id="installmentInfoBox" style="display:none;" class="info-box"></div>
+    <div id="alertBox" class="alert-box"></div>
+    
+    <div class="price-box">المبلغ الإجمالي المطلوب تحويله الآن: <span id="total">0</span> ر.ع</div>
+  </div>
+  
+  <!-- ================= شاشة مراقبة الـ GOOGLE SHEET ================= -->
+  <div class="panel sheet-panel">
+    <h2>📊 شاشة المراقبة المحاسبية (ماذا سيُكتب في Google Sheet الآناً)</h2>
+    <p style="font-size:13px; color:#555; margin-top:0;">راقب الخلايا والأعمدة كيف تتأثر بالفواصل العشرية الدقيقة حسب خياراتك في اليمين:</p>
+    
+    <div style="margin: 10px 0;">
+      حالة سطر الطالب الحالي: <span id="rowStatus" class="status-badge status-new">سطر جديد بالكامل 🟢</span>
+    </div>
+
+    <div class="scroll-wrapper">
+      <table class="sheet-table">
+        <thead>
+          <tr>
+            <th>الاسم (C)</th>
+            <th>الجنس (E)</th>
+            <th>إسلامية (F)</th>
+            <th>عربي (G)</th>
+            <th>إنجليزي (H)</th>
+            <th>رياضيات (I)</th>
+            <th>فيزياء (J)</th>
+            <th>كيمياء (K)</th>
+            <th>أحياء (L)</th>
+            <th>دراسات (M)</th>
+            <th style="background:#bbf7d0;">الإجمالي (N)</th>
+            <th>الاعتماد (W)</th>
+            <th style="background:#fed7aa;">نوع الدفع (AH)</th>
+            <th style="background:#fed7aa;">المتبقي (AI)</th>
+            <th style="background:#fed7aa;">حالة القسط (AK)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="sheet-name">-</td>
+            <td id="sheet-gender">-</td>
+            <td id="sheet-islamic">-</td>
+            <td id="sheet-arabic">-</td>
+            <td id="sheet-english">-</td>
+            <td id="sheet-math">-</td>
+            <td id="sheet-physics">-</td>
+            <td id="sheet-chemistry">-</td>
+            <td id="sheet-biology">-</td>
+            <td id="sheet-studies">-</td>
+            <td id="sheet-total" style="font-weight:bold; background:#f0fdf4;">0</td>
+            <td id="sheet-verify" class="active-cell">TRUE</td>
+            <td id="sheet-paytype">-</td>
+            <td id="sheet-remain" style="font-weight:bold; color:#c2410c;">0</td>
+            <td id="sheet-status">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box" style="background:#f1f5f9; border-color:#cbd5e1; color:#334155; margin-top:15px;">
+      📌 <b>ملاحظة محاسبية للعمود المالي للمواد:</b><br>
+      معادلة مجموع العمود للمادة الواحد مثل `=SUM(F2:F)` ستشتغل الآن بمرونة تامة وبشكل صحيح لأن النظام يوزع المبالغ الواصلة فعلياً فقط بالفواصل العشرية، دون أن يخلط الحسابات بمديونيات لم تصل بعد.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // قائمة المواد المخصصة للصف التاسع
+  const subjects = [
+    { name: "التربية الإسلامية", isSci: false, id: "islamic" },
+    { name: "اللغة العربية", isSci: false, id: "arabic" },
+    { name: "اللغة الإنجليزية", isSci: false, id: "english" },
+    { name: "الرياضيات", isSci: true, id: "math" },
+    { name: "الفيزياء", isSci: true, id: "physics" },
+    { name: "الكيمياء", isSci: true, id: "chemistry" },
+    { name: "الأحياء", isSci: true, id: "biology" },
+    { name: "الدراسات الاجتماعية", isSci: false, id: "studies" }
+  ];
+
+  // تشغيل وتهيئة واجهة المواد عند فتح الصفحة
+  window.onload = function() {
+    renderSubjects();
+    calculate();
+  };
+
+  function renderSubjects() {
+    const grid = document.getElementById('subjectsGrid');
+    grid.innerHTML = "";
+    subjects.forEach((sub, index) => {
+      grid.innerHTML += `
+        <div class="item" id="itembox-${sub.id}">
+          <input type="checkbox" class="sub-checkbox" id="sub-${sub.id}" value="${sub.name}" onchange="calculate()">
+          <label for="sub-${sub.id}">
+            <span>${sub.name}</span>
+            <span class="price-badge" id="badge-${sub.id}">0 ر.ع</span>
+          </label>
+        </div>`;
+    });
+  }
+
+  // محاكاة تغيير حالة الطالب من جديد إلى قديم لمعاينة السيناريوهات
+  function toggleUserType() {
+    const userType = document.getElementById('simUserType').value;
+    const rowStatus = document.getElementById('rowStatus');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    
+    // إعادة تعيين كل الـ Checkboxes
+    document.querySelectorAll('.sub-checkbox').forEach(cb => {
+      cb.checked = false;
+      cb.disabled = false;
+      document.getElementById('itembox-' + cb.id.replace('sub-', '')).style.opacity = "1";
+    });
+
+    if (userType === "old_student") {
+      rowStatus.innerText = "تحديث نفس السطر القديم 🔐";
+      rowStatus.className = "status-badge status-old";
+      
+      // نفترض أن الطالب القديم كان قد اشترك مسبقاً في (إسلامية، عربي، رياضيات، فيزياء) دفع لها قسط أول 60%
+      const preSubscribed = ["islamic", "arabic", "math", "physics"];
+      preSubscribed.forEach(id => {
+        const cb = document.getElementById('sub-' + id);
+        cb.checked = true;
+        cb.disabled = true; // قفل المواد القديمة حتى لا يلغيها الطالب
+        document.getElementById('itembox-' + id).style.opacity = "0.7";
+      });
+      
+      paymentMethodSelect.value = "2_parts"; // إجبار وضع الأقساط لأنه يسدد القسط الثاني
+    } else {
+      rowStatus.innerText = "سطر جديد بالكامل 🟢";
+      rowStatus.className = "status-badge status-new";
+      paymentMethodSelect.value = "full";
+    }
+    calculate();
+  }
+
+  // النواة الحسابية للمحاكي (تطابق تماماً كود الـ index وكود السيرفر)
+  function calculate() {
+    const userType = document.getElementById('simUserType').value;
+    const checkedSubs = document.querySelectorAll('.sub-checkbox:checked');
+    const count = checkedSubs.length;
+    
+    let dynamicCount = count > 0 ? count : 1;
+    
+    // الأسعار التناقصية للصف التاسع
+    let sciPrice = Math.max(22, 25 - (dynamicCount - 1));
+    let othPrice = Math.max(17, 20 - (dynamicCount - 1));
+    
+    // تحديث أسعار البادجات المعروضة على المواد
+    subjects.forEach(sub => {
+      let currentUnitPrice = sub.isSci ? sciPrice : othPrice;
+      let badge = document.getElementById("badge-" + sub.id);
+      if (badge) {
+        badge.innerText = currentUnitPrice + " ر.ع";
+      }
+    });
+
+    const paymentOptionsContainer = document.getElementById('paymentOptionsContainer');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const specialOfferBox = document.getElementById('specialOfferBox');
+    const infoBox = document.getElementById('installmentInfoBox');
+    const alertBox = document.getElementById('alertBox');
+    
+    // تصفير خلايا الجدول المحاكي للشيت كبداية
+    subjects.forEach(sub => document.getElementById('sheet-' + sub.id).innerText = "");
+    document.getElementById('sheet-name').innerText = "أحمد المحاكي";
+    document.getElementById('sheet-gender').innerText = document.getElementById('gender').value || "-";
+
+    if (count === 0) {
+      document.getElementById('total').innerText = "0";
+      specialOfferBox.style.display = "none";
+      infoBox.style.display = "none";
+      paymentOptionsContainer.style.display = "none";
+      return;
+    }
+
+    // حساب الحسبة الأساسية بناءً على نوع المواد المحددة
+    let originalTotal = 0;
+    checkedSubs.forEach(cb => {
+      let subId = cb.id.replace('sub-', '');
+      let subObj = subjects.find(s => s.id === subId);
+      originalTotal += subObj.isSci ? sciPrice : othPrice;
+    });
+
+    // التحكم في ظهور واجهة الأقساط (تظهر فقط إذا تجاوز المبلغ الإجمالي 60 ريال)
+    if (originalTotal >= 60 || userType === "old_student") {
+      paymentOptionsContainer.style.display = 'block';
+    } else {
+      paymentOptionsContainer.style.display = 'none';
+      paymentMethodSelect.value = 'full';
+    }
+
+    let paymentMethod = paymentMethodSelect.value;
+    let finalAmountToPay = originalTotal;
+
+    // ================= المسار الأول: الطالب الجديد =================
+    if (userType === "new_student") {
+      alertBox.style.display = "none";
+      
+      // فحص الباقة الشاملة (8 مواد كاش)
+      if (count >= 8) {
+        let discountedTotal = count * 15; // 120 ر.ع
+        specialOfferBox.style.display = 'block';
+        document.getElementById('discountedTotalAmount').innerText = discountedTotal;
+        
+        if (paymentMethod === 'full') {
+          finalAmountToPay = discountedTotal;
+          sciPrice = 15; othPrice = 15; // توحيد السعر للمواد لتوزيعها بالتساوي
+        }
+      } else {
+        specialOfferBox.style.display = 'none';
+      }
+
+      let isInstallment = (paymentMethod === '2_parts');
+      let paidRatio = isInstallment ? 0.60 : 1.0;
+      let currentTotalPaidNow = parseFloat((finalAmountToPay * paidRatio).toFixed(2));
+
+      // تعبئة الشيت الافتراضي للطالب الجديد
+      checkedSubs.forEach(cb => {
+        let subId = cb.id.replace('sub-', '');
+        let subObj = subjects.find(s => s.id === subId);
+        let baseMadaPrice = subObj.isSci ? sciPrice : othPrice;
+        
+        // توزيع ما وصل فعلياً فقط (سواء 100% كاش أو 60% قسط أول)
+        document.getElementById('sheet-' + subId).innerText = parseFloat((baseMadaPrice * paidRatio).toFixed(2));
+      });
+
+      document.getElementById('sheet-total').innerText = currentTotalPaidNow;
+      document.getElementById('total').innerText = currentTotalPaidNow;
+
+      if (isInstallment) {
+        let remain = parseFloat((finalAmountToPay - currentTotalPaidNow).toFixed(2));
+        infoBox.style.display = "block";
+        infoBox.innerHTML = `💡 <b>خطة القسط الأول (60%):</b><br>المبلغ المطلوب كاش الآن: <b>${currentTotalPaidNow} ر.ع</b><br>المتبقي للقسط الثاني لاحقاً: <b>${remain} ر.ع</b>`;
+        
+        document.getElementById('sheet-paytype').innerText = "تقسيط (دفعتين)";
+        document.getElementById('sheet-remain').innerText = remain;
+        document.getElementById('sheet-status').innerText = "نشط ⏳";
+      } else {
+        infoBox.style.display = "none";
+        document.getElementById('sheet-paytype').innerText = "دفع كامل";
+        document.getElementById('sheet-remain').innerText = "0";
+        document.getElementById('sheet-status').innerText = "مكتمل ✅";
+      }
+    }
+
+    // ================= المسار الثاني: الطالب القديم (ترقية أو دفع قسط) =================
+    else if (userType === "old_student") {
+      specialOfferBox.style.display = 'none'; // التقسيط والترقيات تلغي العروض الشاملة تلقائياً
+      
+      if (paymentMethod === "full") {
+        alertBox.style.display = "block";
+        alertBox.innerText = "❌ تنبيه: أنت حساب أقساط مسبقاً، لا يمكنك التحويل لكاش كامل الآن، يجب استكمال القسط الثاني بقيمة 40% أولاً مع متاحية إضافة مواد جديدة.";
+        paymentMethodSelect.value = "2_parts";
+        paymentMethod = "2_parts";
+      } else {
+        alertBox.style.display = "none";
+      }
+
+      // حسابات المواد التخيلية القديمة (بافتراض أن مبالغها السابقة المخزنة بالشيت كانت 60%)
+      // المواد الأربعة القديمة: إسلامية وعربي (سعر أصلي 17 * 0.60 = 10.2) ، رياضيات وفيزياء (22 * 0.60 = 13.2)
+      // إجمالي القسط المتبقي عليها (40%) هو: (17*2 + 22*2) * 0.40 = 78 * 0.40 = 31.2 ر.ع
+      
+      let preSubscribedIds = ["islamic", "arabic", "math", "physics"];
+      let installmentRemainingToPay = 0;
+      let newSubjectsCostToPayNow = 0;
+
+      // 1. حساب الـ 40% المتبقية للمواد القديمة وتجهيز عرض خلايا الشيت
+      preSubscribedIds.forEach(id => {
+        let subObj = subjects.find(s => s.id === id);
+        let originalMadaPrice = subObj.isSci ? 22 : 17; // بناءً على حسبة 5 مواد السابقة مقفلة على الحد الأدنى
+        let oldPaid60 = parseFloat((originalMadaPrice * 0.60).toFixed(2));
+        let newPaid40 = parseFloat((originalMadaPrice * 0.40).toFixed(2));
+        
+        installmentRemainingToPay += newPaid40;
+        
+        // المحاكاة في الشيت: الخلية القديمة يُضاف لها الـ 40% لتصبح كاملة (100%)
+        document.getElementById('sheet-' + id).innerText = `${oldPaid60} + ${newPaid40} ➔ (${originalMadaPrice})`;
+        document.getElementById('sheet-' + id).className = "highlight-cell";
+      });
+
+      // 2. حساب مبالغ المواد الجديدة (المضافة حديثاً)؛ تنزل بسعرها كاملاً كاش في الإيصال
+      let hasNewSubs = false;
+      subjects.forEach(sub => {
+        if (!preSubscribedIds.includes(sub.id)) {
+          const cb = document.getElementById('sub-' + sub.id);
+          if (cb && cb.checked) {
+            hasNewSubs = true;
+            let currentUnitPrice = sub.isSci ? sciPrice : othPrice;
+            newSubjectsCostToPayNow += currentUnitPrice;
+            
+            // تنزل في خلية الشيت فوراً بقيمتها الإضافية الكاملة
+            document.getElementById('sheet-' + sub.id).innerText = currentUnitPrice;
+            document.getElementById('sheet-' + sub.id).className = "active-cell";
+          }
+        }
+      });
+
+      let totalRequiredNow = parseFloat((installmentRemainingToPay + newSubjectsCostToPayNow).toFixed(2));
+      
+      document.getElementById('total').innerText = totalRequiredNow;
+      infoBox.style.display = "block";
+      infoBox.innerHTML = `💡 <b>تفصيل الحسبة لحساب قديم:</b><br>
+      • قيمة القسط الثاني (40%) للمواد القديمة: <b>${installmentRemainingToPay.toFixed(2)} ر.ع</b><br>
+      • قيمة المواد الجديدة المضافة (100% كاش): <b>${newSubjectsCostToPayNow.toFixed(2)} ر.ع</b><br>
+      • الإجمالي الواجب سداده في هذا الإيصال: <b style='font-size:15px; color:#2e7d32;'>${totalRequiredNow} ر.ع</b>`;
+
+      // تحديث مخرجات الشيت للمراقبة
+      document.getElementById('sheet-total').innerText = `القديم + ${totalRequiredNow}`;
+      document.getElementById('sheet-paytype').innerText = hasNewSubs ? "تقسيط + ترقية" : "سداد قسط كامل";
+      document.getElementById('sheet-remain').innerText = "0"; // تصفير المديونية لأن القسط الثاني أغلق الملف
+      document.getElementById('sheet-status').innerText = "مكتمل ✅";
+    }
+  }
+</script>
+
+</body>
+</html>
