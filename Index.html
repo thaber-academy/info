@@ -3,1563 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة ثابر التعليمية | بوابتك للتفوق</title>
+    <title>حاسبة القبول الموحد الشاملة 2026/2027</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        :root { --primary: #1e3799; --secondary: #e58e26; --success: #27ae60; --danger: #c0392b; --bg: #f5f6fa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 1300px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; border-top: 6px solid var(--primary); }
+        h1 { color: var(--primary); text-align: center; font-size: 1.8rem; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
         
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            background-color: #084c54;
-            background-image: linear-gradient(135deg, #053238 0%, #158b97 100%);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+        .info-box { 
+            background: linear-gradient(135deg, #1e3799 0%, #2c3e50 100%); 
+            padding: 20px; border-radius: 12px; font-size: 1.1rem; margin-bottom: 25px; 
+            border-right: 8px solid var(--secondary); text-align: center; color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); line-height: 1.6;
         }
+        .info-box strong { color: var(--secondary); font-size: 1.2rem; }
 
-        .trust-bar {
-            background: rgba(0, 0, 0, 0.4);
-            width: 100%;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #f1c40f;
-            flex-wrap: wrap;
-        }
+        .card { background: #fff; border: 1px solid #dcdde1; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .step-title { color: var(--primary); font-weight: bold; margin-bottom: 15px; display: block; font-size: 1.1rem; border-right: 4px solid var(--secondary); padding-right: 10px; }
         
-        .trust-bar span { display: flex; align-items: center; gap: 5px; }
-
-        .container {
-            width: 95%;
-            max-width: 1200px;
-            padding: 40px 10px;
-            text-align: center;
-            flex: 1;
-            padding-bottom: 120px; 
+        /* تصميم خيارات المعلومات الشخصية */
+        .personal-info-grid { display: flex; gap: 40px; flex-wrap: wrap; align-items: center; }
+        .gender-options, .disability-option { display: flex; align-items: center; gap: 15px; }
+        .special-needs-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px; border-radius: 8px; border: 2px solid #ddd;
+            cursor: pointer; transition: 0.3s; background: #f8f9fa;
+        }
+        #specialNeeds:checked + .special-needs-label {
+            background: #fff0f0; border-color: var(--danger); color: var(--danger); font-weight: bold;
         }
 
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #ffffff;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
-            line-height: 1.2;
-        }
+        .grid-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
+        .input-group { display: flex; flex-direction: column; text-align: center; }
+        label { font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: #444; }
+        input[type="number"] { padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; text-align: center; font-size: 1.2rem; font-weight: bold; width: 100%; box-sizing: border-box; }
         
-        .hero-title span { color: #f1c40f; }
-
-        .subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
-            color: #e0f2f1;
-            font-weight: 700;
-            text-shadow: 1px 2px 3px rgba(0,0,0,0.3);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .features-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
-            50% { box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6); transform: scale(1.02); }
-            100% { box-shadow: 0 8px 15px rgba(0,0,0,0.2); transform: scale(1); }
-        }
-
-        .feature-pill {
-            background: linear-gradient(45deg, #ffffff, #f7f7f7);
-            color: #084c54;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #f1c40f;
-            animation: pulse-glow 2s infinite ease-in-out;
-        }
+        .elective-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .check-item { background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #ddd; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
         
-        .feature-pill:hover {
-            transform: translateY(-5px) scale(1.05);
-            animation: none;
-            box-shadow: 0 12px 20px rgba(241, 196, 15, 0.4);
-        }
+        .btn-group { display: flex; gap: 15px; justify-content: center; margin: 10px auto 30px auto; max-width: 600px; flex-wrap: wrap; }
+        .btn-calc { background-color: var(--secondary); color: #fff; font-size: 1.2rem; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; flex: 1; min-width: 250px; transition: 0.3s; }
+        .btn-pdf { background-color: var(--success); color: #fff; font-size: 1.2rem; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; flex: 1; min-width: 250px; transition: 0.3s; }
 
-        .main-cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: stretch;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+        .summary-bar { display: flex; justify-content: space-around; background: var(--primary); color: white; padding: 20px; border-radius: 10px; margin: 25px 0; text-align: center; }
+        .summary-bar div span { display: block; font-size: 2.2rem; font-weight: bold; color: var(--secondary); }
 
-        .card {
-            background-color: #ffffff;
-            border-radius: 30px;
-            padding: 35px 25px;
-            width: 320px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            border-top: 8px solid;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(255,255,255,0) 50%, rgba(241, 196, 15, 0.05) 100%);
-            z-index: 1; pointer-events: none;
-        }
-
-        .card:hover { transform: translateY(-15px); box-shadow: 0 30px 50px rgba(0,0,0,0.4); }
+        .search-box { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .table-wrapper { overflow-x: auto; border-radius: 8px; border: 1px solid #ddd; max-height: 800px; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 1150px; }
+        th { background: #f1f4f8; color: var(--primary); padding: 15px; border-bottom: 2px solid #ddd; font-size: 0.9rem; position: sticky; top: 0; z-index: 10; }
+        td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.85rem; vertical-align: middle; }
         
-        .card::after {
-            content: 'اكتشف التفاصيل 👆';
-            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
-            background: #084c54; color: #f1c40f; padding: 8px 20px;
-            border-radius: 20px; font-size: 1rem; font-weight: 900;
-            opacity: 0; transition: all 0.3s ease; white-space: nowrap; z-index: 2;
-        }
-        .card:hover::after { opacity: 1; bottom: 20px; }
-
-        .card-classroom { border-color: #F4B400; }
-        .card-chat { border-color: #0F9D58; }
-        .card-whatsapp { border-color: #128c7e; }
-        .card-pricing { border-color: #d35400; }
-        .card-bank { border-color: #2980b9; }
-        .card-ambassador { border-color: #8e44ad; }
-        .card-teachers { border-color: #27ae60; }
-        .card-schedule { border-color: #3498db; }
-        .schedule-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 1rem; }
-        .schedule-table th, .schedule-table td { border: 1px solid #ddd; padding: 12px 8px; text-align: center; color: #333; }
-        .schedule-table th { background-color: #3498db; color: white; font-weight: 900; border-color: #2980b9; }
-        .schedule-table tr:nth-child(even) { background-color: #f9f9f9; }
-        .schedule-table tr:hover { background-color: #f1f8f8; }
-
-        @keyframes pulse-icon {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); }
-            100% { transform: scale(1); }
-        }
-
-        .card-icon { 
-            font-size: 4.5rem; 
-            margin-bottom: 10px; 
-            z-index: 2; 
-            position: relative;
-            animation: pulse-icon 2s infinite ease-in-out; 
-            display: inline-block;
-        }
+        .badge { padding: 8px 15px; border-radius: 5px; color: white; font-weight: bold; font-size: 0.9rem; display: inline-block; min-width: 110px; }
+        .bg-success { background: var(--success); }
+        .bg-danger { background: var(--danger); }
+        .prog-code { color: #1e3799; background-color: #ebf0fa; border: 1px solid #a4b0be; padding: 3px 8px; border-radius: 5px; font-weight: 900; display: inline-block; margin-bottom: 5px; font-size: 1rem; }
+        .small-req { display: block; font-size: 0.8rem; color: #444; line-height: 1.5; text-align: right; }
+        .comp-info-line { margin-top: 8px; padding-top: 6px; border-top: 1.5px dotted #ddd; color: var(--primary); font-weight: bold; font-size: 0.85rem; }
         
-        .card:hover .card-icon { animation: none; transform: scale(1.1); }
+        /* أيقونة ذوي الإعاقة في الجدول */
+        .disability-badge { background: #ff7675; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin-right: 5px; vertical-align: middle; }
 
-        .card-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 15px; z-index: 2; position: relative; }
-        .card-content { flex: 1; z-index: 2; position: relative; }
-
-        .marketing-tag {
-            background: #f1c40f; color: #000; font-size: 0.85rem; font-weight: bold;
-            padding: 5px 12px; border-radius: 15px; display: inline-block; margin-bottom: 10px;
-        }
-
-        /* ------------------------------------- */
-        /* تعديلات النوافذ المنبثقة */
-        /* ------------------------------------- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center;
-            z-index: 1000; backdrop-filter: blur(8px);
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .modal-content {
-            background: #ffffff; color: #333; width: 100%; max-width: 650px;
-            border-radius: 25px; padding: 30px; position: relative; text-align: right;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
-            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            border: 4px solid #f1c40f;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        
-        .modal-content.large-modal { max-width: 950px; }
-
-        .modal-content::-webkit-scrollbar { width: 8px; }
-        .modal-content::-webkit-scrollbar-thumb { background-color: #f1c40f; border-radius: 10px; }
-
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .close-btn {
-            position: absolute; top: 15px; left: 20px; font-size: 2.5rem;
-            color: #aaa; cursor: pointer; transition: color 0.3s; line-height: 1; z-index: 10;
-        }
-        .close-btn:hover { color: #e74c3c; }
-
-        .modal-title {
-            font-size: 2.2rem; font-weight: 900; margin-bottom: 20px;
-            color: #084c54; border-bottom: 3px solid #eee; padding-bottom: 15px; display: flex; align-items: center; gap: 15px;
-        }
-        
-        .modal-body { font-size: 1.15rem; line-height: 1.9; }
-        
-        .modal-close-btn-bottom {
-            display: block; width: 100%; margin-top: 20px; padding: 12px;
-            background: #eee; color: #555; text-align: center; font-weight: bold;
-            border-radius: 15px; border: none; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;
-        }
-        .modal-close-btn-bottom:hover { background: #ddd; color: #333; }
-
-        .cta-container { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 100; width: 85%; max-width: 350px; text-align: center; }
-        .cta-btn {
-            background: linear-gradient(45deg, #f39c12, #d35400); color: #ffffff;
-            font-size: 1.15rem; font-weight: 900; padding: 12px 20px; border-radius: 50px;
-            text-decoration: none; box-shadow: 0 8px 20px rgba(211, 84, 0, 0.5);
-            border: 3px solid #fff; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
-            animation: pulse-gold 2s infinite; width: 100%;
-        }
-        .cta-btn:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 35px rgba(211, 84, 0, 0.7); }
-        
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(241, 196, 15, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
-        }
-
-        .footer {
-            background: #053238; width: 100%; padding: 25px 0; display: flex; justify-content: center; align-items: center;
-            gap: 40px; font-size: 1.2rem; font-weight: bold; border-top: 2px solid rgba(255,255,255,0.1);
-            flex-wrap: wrap; padding-bottom: 120px; color: #a3d9d3; margin-top: auto;
-        }
-
-        /* ------------------------------------- */
-        /* تنسيقات داخل نافذة الأسعار */
-        /* ------------------------------------- */
-        .pricing-grid {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;
-        }
-        .price-card {
-            background: #f9f9f9; border-radius: 20px; padding: 25px 15px; width: 260px;
-            text-align: center; border: 3px solid transparent; position: relative;
-        }
-        .price-card.special { border-color: #f1c40f; background: linear-gradient(to bottom, #fff, #fffef5); }
-        .special-badge {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            background: #d35400; color: white; padding: 5px 15px; border-radius: 15px;
-            font-weight: bold; font-size: 0.9rem; white-space: nowrap;
-        }
-        .price-card h3 { color: #084c54; font-size: 1.3rem; margin: 10px 0 5px; font-weight: 900; }
-        .price-value { font-size: 2.2rem; font-weight: 900; color: #d35400; margin: 15px 0; line-height: 1; }
-        .price-value span { font-size: 1rem; color: #777; font-weight: normal; }
-        
-        .installment-box {
-            background: #f1f8f8; border: 2px dashed #158b97; padding: 20px;
-            border-radius: 15px; margin-top: 30px; text-align: right;
-        }
-        .installment-box h4 { color: #084c54; font-size: 1.3rem; margin-top: 0; margin-bottom: 10px; }
-
-        /* ------------------------------------- */
-        /* تنسيقات داخل نافذة السفراء */
-        /* ------------------------------------- */
-        .amb-badges-container {
-            display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
-        }
-        .amb-badge {
-            background: #f1c40f; color: #084c54; padding: 8px 20px; border-radius: 30px;
-            font-weight: 900; font-size: 1rem; display: flex; align-items: center; gap: 8px;
-        }
-        .steps-container {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-        }
-        .step-card {
-            background: #f8f9fa; border: 2px dashed #158b97; border-radius: 15px;
-            padding: 15px 10px; width: 140px; display: flex; flex-direction: column;
-            align-items: center; text-align: center;
-        }
-        .step-number {
-            background: #d35400; color: white; width: 30px; height: 30px; display: flex;
-            justify-content: center; align-items: center; border-radius: 50%;
-            font-weight: 900; font-size: 1.1rem; margin-bottom: 10px;
-        }
-        .step-icon { font-size: 2.5rem; margin-bottom: 10px; }
-        .step-text { font-size: 0.9rem; font-weight: 900; color: #333; line-height: 1.4; }
-        .dashboard-note {
-            background: #084c54; color: #ffffff; padding: 12px 25px; border-radius: 50px;
-            display: inline-flex; align-items: center; gap: 10px; margin-top: 25px;
-            font-weight: bold; font-size: 1.1rem; justify-content: center; width: auto;
-        }
-
-        /* ------------------------------------- */
-        /* تنسيقات نافذة الحساب البنكي */
-        /* ------------------------------------- */
-        .bank-details-box {
-            background: #f8f9fa; border: 2px dashed #2980b9; padding: 30px 20px;
-            border-radius: 15px; text-align: center; font-size: 1.2rem;
-            line-height: 2; margin-top: 15px; color: #333;
-        }
-        .bank-details-box p { margin: 10px 0; }
-        .bank-details-box span.val { 
-            font-weight: 900; color: #084c54; font-size: 1.4rem; 
-            display: block; letter-spacing: 1px; margin-top: 5px;
-        }
-        .bank-warning {
-            color: #d35400; font-weight: bold; margin-top: 25px;
-            border-top: 1px dashed #ccc; padding-top: 20px; font-size: 1.1rem; line-height: 1.6;
-        }
-
-        /* ------------------------------------- */
-        /* تنسيقات نافذة المعلمين (الأكورديون القابل للطي) */
-        /* ------------------------------------- */
-        .accordion-btn {
-            background-color: #f8f9fa;
-            color: #084c54;
-            cursor: pointer;
-            padding: 18px 20px;
-            width: 100%;
-            border: 2px solid #158b97;
-            border-radius: 15px;
-            text-align: right;
-            outline: none;
-            font-size: 1.2rem;
-            font-weight: 900;
-            transition: 0.4s;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Cairo', sans-serif;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        .accordion-btn:hover, .accordion-btn.active {
-            background-color: #158b97;
-            color: white;
-        }
-        .accordion-btn::after {
-            content: '\002B'; /* زائد */
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        .accordion-btn.active::after {
-            content: '\2212'; /* ناقص */
-        }
-        .accordion-content {
-            padding: 0;
-            background-color: white;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            border-radius: 0 0 15px 15px;
-            margin-top: -15px;
-            margin-bottom: 15px;
-            border: 2px solid #eee;
-            border-top: none;
-        }
-        
-        /* تصميم بطاقة المعلم الفردية */
-        .teacher-card-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-            border-bottom: 1px dashed #ddd;
-            background: #fafafa;
-        }
-        .teacher-card-item:last-child {
-            border-bottom: none;
-        }
-        .teacher-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #27ae60;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-            background: #fff;
-        }
-        .teacher-details {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex-grow: 1;
-        }
-        .teacher-name-subject {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .teacher-name-subject strong {
-            color: #d35400;
-            background: #fff3e0;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-        }
-        .teacher-name-subject span {
-            font-weight: 900;
-            color: #084c54;
-            font-size: 1.2rem;
-        }
-        .teacher-audio {
-            height: 35px;
-            width: 100%;
-            max-width: 280px;
-            outline: none;
-        }
-
-        /* ------------------------------------- */
-        /* استجابة الموبايل */
-        /* ------------------------------------- */
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.2rem; }
-            .subtitle { font-size: 1.1rem; }
-            .card { width: 100%; max-width: 350px; }
-            .teacher-card-item {
-                flex-direction: column;
-                text-align: center;
-                gap: 12px;
-            }
-            .teacher-name-subject {
-                justify-content: center;
-            }
-            .teacher-audio {
-                margin: 0 auto;
-            }
-            .bank-details-box span.val { font-size: 1.2rem; }
-            .teacher-list li { flex-direction: column; align-items: flex-start; }
-            .teacher-list li strong { width: auto; margin-bottom: 5px; }
-            .cta-btn { font-size: 1rem; padding: 10px 15px; }
-            .schedule-table { font-size: 0.85rem; }
-            .schedule-table th, .schedule-table td { padding: 8px 4px; }
-
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: #fff; }
+            .container { box-shadow: none; border: none; width: 100%; max-width: none; }
+            table { min-width: 100%; border: 1px solid #ccc; }
+            th, td { border: 1px solid #ccc; padding: 10px; }
         }
     </style>
 </head>
 <body>
 
-<div class="trust-bar">
-    <span>👨‍🏫 نخبة من أفضل المعلمين</span>
-    <span>📊 تقارير أداء مستمرة</span>
-    <span>🎯 خطط دراسية مرنة ومجربة</span>
-</div>
-
 <div class="container">
-    <h1 class="hero-title">منصة <span>ثابر</span> التعليمية</h1>
-    <p class="subtitle">نحن لا نقدم دروساً فقط.. نحن نصنع بيئة متكاملة تضمن <strong>متعة التعلم للطالب</strong>، و<strong>راحة البال لولي الأمر</strong>. اكتشف كيف نفعل ذلك 👇</p>
+    <h1 class="no-print">الحاسبة الذكية للقبول الموحد الشاملة 2026/2027</h1>
 
-    <div class="features-grid">
-        <div class="feature-pill" onclick="openModal('features-modal')">⭐ لماذا يختارنا الطلاب؟ (اكتشف السر)</div>
+    <div class="info-box no-print">
+        🏆 <strong>بكل فخر واعتزاز، نضع بين أيديكم هذا المنجز التعليمي الرائد</strong> <br>
+        من إعداد وتطوير الأستاذ القدير: <strong>أنور البلوشي</strong> (92818606) <br>
+        <span style="font-size: 0.9rem; opacity: 0.95;">تم تحديث كافة البيانات والتخصصات حسب دليل الطالب 2026/2027.</span>
     </div>
 
-    <!-- بطاقات الواجهة الرئيسية -->
-    <div class="main-cards">
-        
-        <!-- بطاقة جوجل كلاس روم -->
-        <div class="card card-classroom" onclick="openModal('classroom-modal')">
-            <span class="marketing-tag">الطالب يدرس بذكاء 🧠</span>
-            <div class="card-icon">🏫</div>
-            <div class="card-title" style="color: #d35400;">فصلك في جيبك</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">بيئة تعليمية لا تعرف الملل.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">كل دروسك، واجباتك، وملازمك منظمة بطريقة تفتح النفس للمذاكرة (عبر جوجل كلاس روم).</p>
+    <!-- 1. المعلومات الشخصية (الجنس والإعاقة) -->
+    <div class="card no-print">
+        <span class="step-title">1. المعلومات الشخصية:</span>
+        <div class="personal-info-grid">
+            <div class="gender-options">
+                <label>الجنس:</label>
+                <label><input type="radio" name="gender" value="male" checked onchange="calculate()"> ذكر 👨</label>
+                <label><input type="radio" name="gender" value="female" onchange="calculate()"> أنثى 👩</label>
             </div>
-        </div>
-
-        <!-- بطاقة جوجل تشات -->
-        <div class="card card-chat" onclick="openModal('chat-modal')">
-            <span class="marketing-tag">لا للمذاكرة وحيداً 🤝</span>
-            <div class="card-icon">💬</div>
-            <div class="card-title" style="color: #0F9D58;">مجتمع ثابر التفاعلي</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أسئلتك مُجاب عليها فوراً.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (جوجل تشات)، تواصل مع معلميك وزملائك في أي وقت، شارك أفكارك، وتغلب على أي صعوبة.</p>
+            <div class="disability-option">
+                <input type="checkbox" id="specialNeeds" style="display:none;" onchange="calculate()">
+                <label for="specialNeeds" class="special-needs-label special-needs-btn">
+                    <span>♿ أنا من ذوي الإعاقة الخاصة</span>
+                </label>
             </div>
-        </div>
-        
-        <!-- بطاقة مجتمع واتساب -->
-        <div class="card card-whatsapp" onclick="openModal('whatsapp-modal')">
-            <span class="marketing-tag">لولي الأمر المطمئن 🛡️</span>
-            <div class="card-icon">📢</div>
-            <div class="card-title" style="color: #128c7e;">أنت معنا بالصورة</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">لا مفاجآت بعد اليوم.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">عبر (مجتمع واتساب)، تصلك تنبيهات فورية بمواعيد الحصص، الامتحانات، ومستوى إنجاز الأبناء.</p>
-            </div>
-        </div>
-
-        <!-- بطاقة المعلمين -->
-        <div class="card card-teachers" onclick="openModal('teachers-modal')">
-            <span class="marketing-tag" style="background: #27ae60; color: #fff;">شركاء النجاح 🎓</span>
-            <div class="card-icon">👨‍🏫</div>
-            <div class="card-title" style="color: #27ae60;">نخبة المعلمين</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">استمع لطاقم التدريس بنفسك.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">تعرف على معلمي كل مرحلة، شاهد صورهم، واستمع لرسالتهم الترحيبية بصوتهم.</p>
-            </div>
-        </div>
-
-        <!-- بطاقة الجدول الدراسي -->
-        <div class="card card-schedule" onclick="openModal('schedule-modal')">
-            <span class="marketing-tag" style="background: #3498db; color: #fff;">تنظيم ووقت ⏰</span>
-            <div class="card-icon">📅</div>
-            <div class="card-title" style="color: #3498db;">الجدول الدراسي</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">خطتك الأسبوعية بوضوح.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">تعرف على أوقات الحصص المباشرة لكل مادة لتنظيم وقتك الدراسي بكل سهولة.</p>
-            </div>
-        </div>
-        
-        <!-- بطاقة باقات الأسعار -->
-        <div class="card card-pricing" onclick="openModal('pricing-modal')">
-            <span class="marketing-tag" style="background: #d35400; color: #fff;">استثمر بذكاء 💡</span>
-            <div class="card-icon">💸</div>
-            <div class="card-title" style="color: #d35400;">باقات وخطط الاشتراك</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أفضل قيمة لمستقبل ابنك.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">اكتشف أسعار المواد العلمية، الباقة الشاملة، عروض خصم التعدد، ونظام التقسيط المريح جداً.</p>
-            </div>
-        </div>
-        
-        <!-- بطاقة الحساب البنكي -->
-        <div class="card card-bank" onclick="openModal('bank-modal')">
-            <span class="marketing-tag" style="background: #2980b9; color: #fff;">طرق الدفع 💳</span>
-            <div class="card-icon">🏦</div>
-            <div class="card-title" style="color: #2980b9;">الحساب البنكي للتحويل</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">أرقام الحسابات المعتمدة.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">اضغط هنا لمعرفة تفاصيل الحساب البنكي والآيبان لإتمام عملية الاشتراك بنجاح.</p>
-            </div>
-        </div>
-
-        <!-- بطاقة سفراء ثابر -->
-        <div class="card card-ambassador" onclick="openModal('ambassador-modal')">
-            <span class="marketing-tag" style="background: #8e44ad; color: #fff;">اربح معنا 🎁</span>
-            <div class="card-icon">🤝</div>
-            <div class="card-title" style="color: #8e44ad;">برنامج سفراء ثابر</div>
-            <div class="card-content">
-                <p style="text-align: center; font-weight: 900; color: #333; font-size: 1rem;">شارك المعرفة واكسب.</p>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;">كن سفيراً للمنصة وحوّل تسويقك الذكي لعائدات مالية ومواد مجانية بخطوات بسيطة جداً.</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="cta-container">
-    <a href="https://linktr.ee/thaberacademy" target="_blank" class="cta-btn">
-        🚀 استثمر في مستقبل ابنك - اشترك الآن
-    </a>
-</div>
-
-<div class="footer">
-    <div style="display: flex; gap: 10px; align-items: center;"><span>📸</span> <span dir="ltr">@Thaber_educational</span></div>
-    <div style="display: flex; gap: 10px; align-items: center;"><span>📞</span> <span dir="ltr">71444589</span></div>
-    <div style="display: flex; gap: 10px; align-items: center;"><span>🌐</span> <span dir="ltr">www.thaber.com</span></div>
-</div>
-
-<!-- ================= النوافذ المنبثقة (Modals) ================= -->
-
-<!-- نافذة المعلمين -->
-<div class="modal-overlay" id="teachers-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('teachers-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">👨‍🏫</span> تعرف على طاقم التدريس</div>
-        <div class="modal-body">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 25px; color: #555;">
-                اختر المرحلة الدراسية للتعرف على كادر المعلمين المتميزين، واستمع لرسالتهم الترحيبية:
-            </p>
-
-            <!-- الصف التاسع -->
-            <button class="accordion-btn">📚 الصف التاسع (8 مواد)</button>
-            <div class="accordion-content">
-
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>التربية الإسلامية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة العربية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة الإنجليزية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الفيزياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الكيمياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الأحياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الدراسات الاجتماعية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-
-            <!-- الصف العاشر -->
-            <button class="accordion-btn">📚 الصف العاشر (8 مواد)</button>
-            <div class="accordion-content">
-
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>التربية الإسلامية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة العربية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة الإنجليزية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الفيزياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الكيمياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الأحياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الدراسات الاجتماعية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-
-            <!-- الصف الحادي عشر -->
-            <button class="accordion-btn">📚 الصف الحادي عشر (12 مادة)</button>
-            <div class="accordion-content">
-
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>التربية الإسلامية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة العربية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة الإنجليزية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات المتقدمة</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الفيزياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الكيمياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الأحياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات الأساسية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>علوم بيئة</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الجغرافيا</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>هذا وطني</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>العالم من حولي</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-
-            <!-- الصف الثاني عشر -->
-            <button class="accordion-btn">📚 الصف الثاني عشر (12 مادة)</button>
-            <div class="accordion-content">
-
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>التربية الإسلامية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة العربية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>اللغة الإنجليزية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات المتقدمة</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الفيزياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الكيمياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الأحياء</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الرياضيات الأساسية</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>علوم بيئة</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>الجغرافيا</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>هذا وطني</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-                <div class="teacher-card-item">
-                    <!-- 🖼️ استبدل الرابط أدناه برابط صورة المعلم -->
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة المعلم" class="teacher-avatar">
-                    <div class="teacher-details">
-                        <div class="teacher-name-subject">
-                            <strong>العالم من حولي</strong>
-                            <span>أ. (اسم المعلم)</span>
-                        </div>
-                        <!-- 🎵 استبدل "رابط_المقطع_الصوتي.mp3" برابط الصوت الحقيقي -->
-                        <audio controls class="teacher-audio">
-                            <source src="رابط_المقطع_الصوتي.mp3" type="audio/mpeg">
-                            متصفحك لا يدعم مشغل الصوت.
-                        </audio>
-                    </div>
-                </div>
-            </div>
-
-            <p style="text-align: center; font-size: 0.9rem; color: #888; margin-top: 15px;">
-                * القائمة قابلة للتحديث المستمر لضمان توفير أفضل الكفاءات التعليمية.
-            </p>
-
-            <button class="modal-close-btn-bottom" onclick="closeModal('teachers-modal')">إغلاق النافذة</button>
-</div>
-    </div>
-</div>
-
-<!-- نافذة الجدول الدراسي -->
-<div class="modal-overlay" id="schedule-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('schedule-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">📅</span> الجدول الدراسي للحصص</div>
-        <div class="modal-body">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 25px; color: #555;">
-                اختر المرحلة الدراسية لمعرفة أوقات الحصص المباشرة لكل مادة:
-            </p>
-
-            <!-- الصف التاسع -->
-            <button class="accordion-btn">📚 جدول الصف التاسع</button>
-            <div class="accordion-content" style="padding: 10px;">
-                <table class="schedule-table">
-<thead><tr><th>المادة</th><th>اليوم</th><th>وقت الحصة</th></tr></thead>
-<tbody>
-<tr><td><strong>التربية الإسلامية</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة العربية</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة الإنجليزية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الفيزياء</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الكيمياء</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الأحياء</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الدراسات الاجتماعية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-</tbody></table>
-
-            </div>
-
-            <!-- الصف العاشر -->
-            <button class="accordion-btn">📚 جدول الصف العاشر</button>
-            <div class="accordion-content" style="padding: 10px;">
-                <table class="schedule-table">
-<thead><tr><th>المادة</th><th>اليوم</th><th>وقت الحصة</th></tr></thead>
-<tbody>
-<tr><td><strong>التربية الإسلامية</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة العربية</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة الإنجليزية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الفيزياء</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الكيمياء</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الأحياء</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الدراسات الاجتماعية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-</tbody></table>
-
-            </div>
-
-            <!-- الصف الحادي عشر -->
-            <button class="accordion-btn">📚 جدول الصف الحادي عشر</button>
-            <div class="accordion-content" style="padding: 10px;">
-                <table class="schedule-table">
-<thead><tr><th>المادة</th><th>اليوم</th><th>وقت الحصة</th></tr></thead>
-<tbody>
-<tr><td><strong>التربية الإسلامية</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة العربية</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة الإنجليزية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات المتقدمة</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الفيزياء</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الكيمياء</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الأحياء</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات الأساسية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>علوم بيئة</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الجغرافيا</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>هذا وطني</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>العالم من حولي</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-</tbody></table>
-
-            </div>
-
-            <!-- الصف الثاني عشر -->
-            <button class="accordion-btn">📚 جدول الصف الثاني عشر</button>
-            <div class="accordion-content" style="padding: 10px;">
-                <table class="schedule-table">
-<thead><tr><th>المادة</th><th>اليوم</th><th>وقت الحصة</th></tr></thead>
-<tbody>
-<tr><td><strong>التربية الإسلامية</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة العربية</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>اللغة الإنجليزية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات المتقدمة</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الفيزياء</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الكيمياء</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الأحياء</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الرياضيات الأساسية</strong></td><td>الثلاثاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>علوم بيئة</strong></td><td>الأربعاء</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>الجغرافيا</strong></td><td>الخميس</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>هذا وطني</strong></td><td>الأحد</td><td dir="rtl">07:30 مساءً</td></tr>
-<tr><td><strong>العالم من حولي</strong></td><td>الإثنين</td><td dir="rtl">07:30 مساءً</td></tr>
-</tbody></table>
-
-            </div>
-
-            <p style="text-align: center; font-size: 0.9rem; color: #888; margin-top: 15px;">
-                * التوقيت والأيام الموضحة هنا هي للتمثيل فقط ويمكنك تعديلها لاحقاً من الكود.
-            </p>
-
-            <button class="modal-close-btn-bottom" onclick="closeModal('schedule-modal')">إغلاق النافذة</button>
         </div>
     </div>
-</div>
 
-<!-- نافذة الحساب البنكي -->
-<div class="modal-overlay" id="bank-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('bank-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💰</span> الحساب البنكي المعتمد</div>
-        <div class="modal-body">
-            <div class="bank-details-box">
-                <p><strong>اسم البنك:</strong> بنك مسقط</p>
-                <p><strong>رقم الحساب:</strong> <span class="val" dir="ltr">0338002883930067</span></p>
-                <p><strong>الآيبان (IBAN):</strong> <span class="val" dir="ltr">OM300270338002883930067</span></p>
-                <p><strong>باسم:</strong> أنور خميس البلوشي</p>
-                
-                <div class="bank-warning">
-                    ⚠️ تنبيه هام جداً: لا يوجد تحويل برقم الهاتف نهائياً، يرجى التحويل برقم الحساب أو الآيبان الموضحين أعلاه فقط.
-                </div>
-            </div>
-            <button class="modal-close-btn-bottom" onclick="closeModal('bank-modal')">حسناً، فهمت</button>
+    <div class="card no-print">
+        <span class="step-title">2. اختر نوع الرياضيات:</span>
+        <label><input type="radio" name="mathType" value="adv" checked onchange="calculate()"> رياضيات متقدمة</label>
+        <label style="margin-right: 30px;"><input type="radio" name="mathType" value="basic" onchange="calculate()"> رياضيات أساسية</label>
+    </div>
+
+    <div class="card no-print">
+        <span class="step-title">3. المواد الأساسية:</span>
+        <div class="grid-inputs">
+            <div class="input-group"><label>العربية</label><input type="number" id="arabic" value="0" oninput="calculate()"></div>
+            <div class="input-group"><label>الإنجليزية</label><input type="number" id="english" value="0" oninput="calculate()"></div>
+            <div class="input-group"><label>الرياضيات</label><input type="number" id="math" value="0" oninput="calculate()"></div>
+            <div class="input-group"><label>الإسلامية</label><input type="number" id="islamic" value="0" oninput="calculate()"></div>
+            <div class="input-group"><label>الدراسات</label><input type="number" id="social" value="0" oninput="calculate()"></div>
         </div>
     </div>
-</div>
 
-<!-- نافذة الأسعار -->
-<div class="modal-overlay" id="pricing-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('pricing-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💸</span> باقات وخطط الاشتراك</div>
-        <div class="modal-body">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">
-                صممنا أسعارنا بكل شفافية وبمرونة تامة لتناسب الجميع وتضمن لكم أفضل قيمة تعليمية.
-            </p>
-
-            <div class="pricing-grid">
-                <div class="price-card">
-                    <h3>🔬 المواد العلمية والرياضيات</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(فيزياء، كيمياء، أحياء، رياضيات)</p>
-                    <div class="price-value">25 <span>ريال / للمادة</span></div>
-                </div>
-                
-                <div class="price-card">
-                    <h3>📖 بقية المواد الأخرى</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(اللغات وبقية المواد الدراسية)</p>
-                    <div class="price-value">20 <span>ريال / للمادة</span></div>
-                </div>
-
-                <div class="price-card special">
-                    <div class="special-badge">🔥 العرض الأوفر</div>
-                    <h3>🌟 الباقة الشاملة</h3>
-                    <p style="color: #777; font-size: 0.85rem;">(اشترك في جميع المواد الدراسية)</p>
-                    <div class="price-value">15 <span>ريال / للمادة</span></div>
-                </div>
-            </div>
-
-            <div class="installment-box">
-                <h4>🎁 عروض التوفير الذكية (خصم التعدد)</h4>
-                <p>
-                    كلما زاد عدد المواد التي تشتركون بها، قلّ السعر! 
-                    يُخصم <strong>ريال واحد</strong> من كل مادة عند الاشتراك في مادتين، ويُخصم <strong>ريالين</strong> لـ 3 مواد.. وهكذا وصولاً للباقة الشاملة.
-                </p>
-                
-                <h4 style="margin-top: 20px;">💳 تسهيلات الدفع المريحة (نظام التقسيط)</h4>
-                <p>إذا بلغت قيمة الاشتراك الإجمالية <strong>60 ريالاً</strong>، يمكنكم التقسيط:</p>
-                <ul style="margin-bottom: 0;">
-                    <li><strong>الدفعة الأولى:</strong> تُدفع <strong>60%</strong> فقط عند الاشتراك للبدء فوراً.</li>
-                    <li><strong>الدفعة الثانية:</strong> تُدفع الـ <strong>40%</strong> المتبقية براحتكم بعد شهر كامل.</li>
-                </ul>
-            </div>
-            <button class="modal-close-btn-bottom" onclick="closeModal('pricing-modal')">حسناً، فهمت</button>
-        </div>
+    <div class="card no-print">
+        <span class="step-title">4. اختر المواد الاختيارية (3 فقط):</span>
+        <div class="elective-selector" id="electivePicker"></div>
+        <div class="grid-inputs" id="electiveInputsContainer"></div>
     </div>
-</div>
 
-<!-- نافذة سفراء ثابر -->
-<div class="modal-overlay" id="ambassador-modal">
-    <div class="modal-content large-modal">
-        <span class="close-btn" onclick="closeModal('ambassador-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🤝</span> انضم لبرنامج سفراء ثابر</div>
-        <div class="modal-body">
-            
-            <div class="amb-badges-container">
-                <div class="amb-badge">👨‍🎓 كن سفيراً.. ألهم زملائك!</div>
-                <div class="amb-badge">👩‍🎓 سفيرة ثابر.. شاركي المعرفة!</div>
-            </div>
-
-            <p style="text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 1.2rem; color: #158b97;">
-                حول تسويقك الذكي لعائدات ومواد مجانية بخطوات بسيطة! 💡
-            </p>
-
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">🧑‍💼</div>
-                    <div class="step-text">أنشئ الكود الخاص بك</div>
-                </div>
-                
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">📲</div>
-                    <div class="step-text">شارك كودك مع الطلاب الآخرين</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">💻</div>
-                    <div class="step-text">يستخدم الطالب كودك عند الاشتراك</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <div class="step-icon">🏷️</div>
-                    <div class="step-text">يحصل الطالب على خصم ريالين من كل مادة</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">5</div>
-                    <div class="step-icon">🪙</div>
-                    <div class="step-text">مكافأة نجاح التسويق: 1 ريال لكل مشترك</div>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-number">6</div>
-                    <div class="step-icon">🎁</div>
-                    <div class="step-text">جمعت 10؟ اسحبها كعائدات نقداً أو مادة مجاناً</div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <div class="dashboard-note">
-                    <span>📊</span> تابع عدد الاشتراكات في لوحة التحكم الخاصة بك
-                </div>
-            </div>
-            
-            <button class="modal-close-btn-bottom" onclick="closeModal('ambassador-modal')">رائع، إغلاق النافذة</button>
-        </div>
+    <div class="btn-group no-print">
+        <button type="button" class="btn-calc" onclick="calculate()">تحديث النتائج 🔄</button>
+        <button type="button" class="btn-pdf" onclick="window.print()">📄 حفظ (PDF)</button>
     </div>
-</div>
 
-<!-- بقية النوافذ الأساسية -->
-<div class="modal-overlay" id="classroom-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('classroom-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏫</span> نظام دراسي مصمم لنجاحك</div>
-        <div class="modal-body">
-            <p>نحن نعلم أن الفوضى تشتت التركيز، لذلك استخدمنا <strong>جوجل كلاس روم</strong> لنرتب لك طريق التفوق:</p>
-            <ul>
-                <li><strong>وداعاً لضياع الدروس:</strong> مكتبة رقمية ضخمة ومسجلة.</li>
-                <li><strong>مذكرات وملازم حصرية:</strong> جاهزة للتحميل بضغطة زر.</li>
-                <li><strong>تنظيم يريح الأعصاب:</strong> لوحة تحكم تخبرك بما أنجزته.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('classroom-modal')">إغلاق</button>
-        </div>
+    <div class="summary-bar no-print">
+        <div>معدلك العام <span id="resGenAvg">0%</span></div>
+        <div>البرامج المستوفاة <span id="resMatch">0</span></div>
     </div>
-</div>
 
-<div class="modal-overlay" id="chat-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">💬</span> لن تتعثر في أي سؤال</div>
-        <div class="modal-body">
-            <p>صممنا لك بيئة تفاعلية حية عبر <strong>جوجل تشات</strong>:</p>
-            <ul>
-                <li><strong>معلمك معك دائماً:</strong> مساحات نقاش (Spaces) مخصصة لكل مادة.</li>
-                <li><strong>تعلم من أخطاء غيرك:</strong> الأسئلة السابقة محفوظة.</li>
-                <li><strong>جو تنافسي إيجابي:</strong> تواصل راقٍ ومفيد.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('chat-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="whatsapp-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('whatsapp-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🛡️</span> راحة البال لولي الأمر</div>
-        <div class="modal-body">
-            <p>صممنا <strong>مجتمع واتساب المغلق</strong> ليكون حلقة الوصل:</p>
-            <ul>
-                <li><strong>متابعة لحظية (بدون إزعاج):</strong> إشعارات بمواعيد بدء الحصص.</li>
-                <li><strong>تنبيهات الامتحانات:</strong> رسائل تذكيرية قبل التقييمات.</li>
-                <li><strong>قرارات وتحديثات المنصة:</strong> كن أول من يعلم بالمعسكرات.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('whatsapp-modal')">إغلاق</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="features-modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('features-modal')">&times;</span>
-        <div class="modal-title"><span style="font-size: 2.5rem;">🏆</span> منظومة ثابر.. أكثر من دروس</div>
-        <div class="modal-body">
-            <ul>
-                <li><strong>تقييم مستمر:</strong> اختبارات رقمية دورية.</li>
-                <li><strong>تقارير أداء كاشفة:</strong> تحليل دقيق لمستوى الطالب.</li>
-                <li><strong>تحفيز يصنع المعجزات:</strong> شهادات وتكريم دوري.</li>
-            </ul>
-            <button class="modal-close-btn-bottom" onclick="closeModal('features-modal')">إغلاق</button>
-        </div>
+    <input type="text" id="searchInput" class="search-box no-print" placeholder="ابحث عن التخصص..." onkeyup="filterTable()">
+    
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>المجال</th>
+                    <th>التخصص والرمز</th>
+                    <th>شروط المواد</th>
+                    <th>أدنى نسبة</th>
+                    <th>التنافسية</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
 </div>
 
 <script>
-    // نظام التحكم بالنوافذ المنبثقة
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-        document.body.style.overflow = 'hidden'; 
-    }
-    
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-        document.body.style.overflow = 'auto'; 
-    }
+    // [ملاحظة للأستاذ أنور: تم دمج البيانات التي أرفقتها سابقاً]
+    const electiveList = [
+        { id: "english_skills", name: "مهارات إنجليزية" }, { id: "physics", name: "الفيزياء" }, 
+        { id: "chemistry", name: "الكيمياء" }, { id: "biology", name: "الأحياء" },
+        { id: "it_sub", name: "التقنية" }, { id: "finearts", name: "الفنون" },
+        { id: "sports", name: "الرياضة" }, { id: "music", name: "الموسيقى" }
+    ];
 
-    // إغلاق النافذة عند الضغط في المساحة الرمادية
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            event.target.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    }
+    const subMap = {
+        arabic: "العربية", english: "الإنجليزية", math: "الرياضيات", islamic: "الإسلامية",
+        social: "الدراسات", physics: "الفيزياء", chemistry: "الكيمياء", biology: "الأحياء",
+        it_sub: "التقنية", finearts: "الفنون", sports: "الرياضة", music: "الموسيقى"
+    };
 
-    // برمجة القوائم المنسدلة (الأكورديون)
-    var acc = document.getElementsByClassName("accordion-btn");
-    for (var i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null; 
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px"; 
-            } 
+    // مصفوفة التخصصات (تم إضافة خاصية gender لكل تخصص)
+    const majorsData = [
+        // تخصصات عامة
+        { cat: "الصحة", name: "SE008 - (Medicine) (ايرلندا)", min: 95, minComp: 94, mand: ['chemistry','english'], opts: [['biology','physics','math']], optCount: 2, mathType: "adv", reqRates: {biology:90, physics:90, math:90, chemistry:95, english:90}, gender: "any" },
+        { cat: "التربية", name: "BS242 - بكالوريوس التربية (اللغة الإنجليزية) (للذكور فقط)", min: 80, minComp: 0, mand: ['english'], opts: [], optCount: 0, mathType: "any", reqRates: {english:70}, gender: "male" },
+        { cat: "التربية", name: "BS273 - بكالوريوس التربية (التربية الرياضية) (للإناث فقط)", min: 80, minComp: 0, mand: ['sports'], opts: [], optCount: 0, mathType: "any", reqRates: {sports:70}, gender: "female" },
+        
+        // تخصصات ذوي الإعاقة (تظهر فقط عند تفعيل ♿)
+        { cat: "برامج لذوي الإعاقة الخاصة", name: "IS005 - الفقه وأصوله (للذكور)", min: 75, minComp: 0, mand: ['arabic','islamic'], opts: [], optCount: 0, mathType: "any", reqRates: {arabic:75, islamic:75}, gender: "male", isSpecial: true },
+        { cat: "برامج لذوي الإعاقة الخاصة", name: "IS006 - الفقه وأصوله (للإناث)", min: 75, minComp: 0, mand: ['arabic','islamic'], opts: [], optCount: 0, mathType: "any", reqRates: {arabic:75, islamic:75}, gender: "female", isSpecial: true },
+        { cat: "برامج لذوي الإعاقة الخاصة", name: "SQ954 - دكتور بالطب (ذوي إعاقة)", min: 85, minComp: 0, mand: ['chemistry','biology','physics','english','math'], opts: [], optCount: 0, mathType: "adv", reqRates: {chemistry:80, biology:80, physics:80, english:80, math:80}, gender: "any", isSpecial: true }
+        // يمكنك إضافة بقية التخصصات هنا بنفس النمط
+    ];
+
+    function init() {
+        const picker = document.getElementById('electivePicker');
+        electiveList.forEach(s => {
+            picker.innerHTML += `<label class="check-item"><input type="checkbox" class="e-cb" value="${s.id}" onchange="updateElectives(event)"> ${s.name}</label>`;
         });
+        calculate();
     }
-</script>
 
+    function updateElectives(event) {
+        const container = document.getElementById('electiveInputsContainer');
+        const selected = Array.from(document.querySelectorAll('.e-cb:checked'));
+        if (selected.length > 3) { event.target.checked = false; alert("3 مواد فقط!"); return; }
+        container.innerHTML = "";
+        selected.forEach(cb => {
+            container.innerHTML += `<div class="input-group"><label>${subMap[cb.value]}</label><input type="number" id="grade-${cb.value}" value="0" oninput="calculate()"></div>`;
+        });
+        calculate();
+    }
+
+    function calculate() {
+        const userGender = document.querySelector('input[name="gender"]:checked').value;
+        const isUserSpecial = document.getElementById('specialNeeds').checked;
+        const userMathType = document.querySelector('input[name="mathType"]:checked').value;
+
+        const grades = {
+            arabic: parseFloat(document.getElementById('arabic').value) || 0,
+            english: parseFloat(document.getElementById('english').value) || 0,
+            math: parseFloat(document.getElementById('math').value) || 0,
+            islamic: parseFloat(document.getElementById('islamic').value) || 0,
+            social: parseFloat(document.getElementById('social').value) || 0
+        };
+        electiveList.forEach(s => {
+            const el = document.getElementById(`grade-${s.id}`);
+            if (el) grades[s.id] = parseFloat(el.value) || 0;
+        });
+
+        const genAvg = (Object.values(grades).sort((a,b)=>b-a).slice(0,8).reduce((a,b)=>a+b,0)/8).toFixed(2);
+        document.getElementById('resGenAvg').innerText = genAvg + "%";
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+        let matchCount = 0;
+
+        majorsData.forEach(m => {
+            // 1. فلترة حسب الإعاقة
+            if (m.isSpecial && !isUserSpecial) return;
+            if (!m.isSpecial && m.cat === "برامج لذوي الإعاقة الخاصة" && !isUserSpecial) return;
+
+            // 2. فلترة حسب الجنس
+            if (m.gender !== "any" && m.gender !== userGender) return;
+
+            let compScores = [];
+            let subjectsOk = true;
+            let reqDetails = [];
+
+            // معالجة المواد
+            m.mand.forEach(s => {
+                let uG = grades[s] || 0; let rG = m.reqRates[s] || 0;
+                if (uG < rG) subjectsOk = false;
+                compScores.push(uG);
+                reqDetails.push(`<span class="${uG < rG ? 'text-danger' : ''}">• ${subMap[s]}: ${rG}%</span><br>`);
+            });
+
+            m.opts.forEach(group => {
+                let gG = group.map(s => grades[s] || 0).sort((a,b)=>b-a);
+                let topGrades = gG.slice(0, m.optCount);
+                if (topGrades.some(g => g < m.reqRates[group[0]])) subjectsOk = false;
+                compScores.push(...topGrades);
+                reqDetails.push(`<span style="color:var(--secondary)">• أفضل ${m.optCount} من (${group.map(s=>subMap[s]).join('/')})</span><br>`);
+            });
+
+            const finalComp = (((compScores.reduce((a,b)=>a+b,0)/compScores.length)*0.6) + (genAvg*0.4)).toFixed(2);
+            const basicEligible = (m.mathType === "any" || m.mathType === userMathType) && genAvg >= m.min && subjectsOk;
+
+            if (basicEligible) matchCount++;
+
+            let statusClass = basicEligible ? "bg-success" : "bg-danger";
+            let statusText = basicEligible ? "مستوفٍ" : "غير مستوفٍ";
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${m.isSpecial ? '<span class="disability-badge">♿</span>' : ''} ${m.cat}</td>
+                    <td style="text-align:right"><strong>${m.name}</strong></td>
+                    <td><div class="small-req">${reqDetails.join('')}</div></td>
+                    <td>${m.min}%</td>
+                    <td style="color:var(--secondary); font-weight:bold">${finalComp}%</td>
+                    <td><span class="badge ${statusClass}">${statusText}</span></td>
+                </tr>`;
+        });
+        document.getElementById('resMatch').innerText = matchCount;
+    }
+
+    function filterTable() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('#tableBody tr').forEach(r => r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none");
+    }
+    init();
+</script>
 </body>
 </html>
-    
